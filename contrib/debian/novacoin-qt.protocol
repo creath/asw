@@ -1,0 +1,11 @@
+[Protocol]
+exec=ASWCoin-qt '%u'
+protocol=ASWCoin
+input=none
+output=none
+helper=true
+listing=
+reading=false
+writing=false
+makedir=false
+deleting=false

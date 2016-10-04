@@ -1,0 +1,11 @@
+[Unit]
+Description=ASWCoin daemon serivce
+After=network.target
+
+[Service]
+Type=simple
+User=ASWCoin
+ExecStart=/opt/ASWCoin/ASWCoind
+
+[Install]
+WantedBy=multi-user.target

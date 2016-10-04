@@ -1,0 +1,9 @@
+Building ASWCoin
+
+See doc/readme-qt.rst for instructions on building ASWCoin Qt,
+the intended-for-end-users, nice-graphical-interface, reference
+implementation of ASWCoin.
+
+See doc/build-*.txt for instructions on building ASWCoind,
+the intended-for-services, no-graphical-interface, reference
+implementation of ASWCoin.

@@ -1,0 +1,2 @@
+debian/bin/ASWCoind usr/bin
+src/ASWCoind usr/lib/ASWCoin

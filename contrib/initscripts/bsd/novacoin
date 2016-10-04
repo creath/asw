@@ -1,0 +1,68 @@
+#!/bin/sh
+
+# PROVIDE: ASWCoin
+# REQUIRE: LOGIN
+# KEYWORD: shutdown
+
+#
+# Add the following lines to /etc/rc.conf.local or /etc/rc.conf
+# to enable this service:
+#
+# ASWCoin_enable (bool): Set to NO by default. Set this variable to YES if you want to enable ASWCoin service.
+# ASWCoin_config (path): Set to /usr/local/etc/ASWCoin.conf by default.
+# ASWCoin_user:  The user account ASWCoin daemon runs as. It uses 'root' user by default.
+# ASWCoin_group: The group account ASWCoin daemon runs as. It uses 'wheel' group by default.
+# ASWCoin_datadir (str): Default to "/var/db/ASWCoin". Base data directory.
+
+. /etc/rc.subr
+
+name=ASWCoin
+rcvar=ASWCoin_enable
+
+: ${ASWCoin_enable:=NO}
+: ${ASWCoin_config=/usr/local/etc/ASWCoin.conf}
+: ${ASWCoin_datadir=/var/db/ASWCoin}
+: ${ASWCoin_user="root"}
+: ${ASWCoin_group="wheel"}
+
+required_files=${ASWCoin_config}
+command=/usr/local/bin/ASWCoind
+ASWCoin_chdir=${ASWCoin_datadir}
+pidfile="${ASWCoin_datadir}/ASWCoind.pid"
+stop_cmd=ASWCoin_stop
+command_args="-conf=${ASWCoin_config} -datadir=${ASWCoin_datadir} -daemon -pid=${pidfile}"
+start_precmd="${name}_prestart"
+
+ASWCoin_create_datadir()
+{
+	echo "Creating data directory"
+	eval mkdir -p ${ASWCoin_datadir}
+	[ $? -eq 0 ] && chown -R ${ASWCoin_user}:${ASWCoin_group} ${ASWCoin_datadir}
+}
+
+ASWCoin_prestart()
+{
+	if [ ! -d "${ASWCoin_datadir}/." ]; then
+		ASWCoin_create_datadir || return 1
+	fi
+}
+
+ASWCoin_requirepidfile()
+{
+	if [ ! "0`check_pidfile ${pidfile} ${command}`" -gt 1 ]; then
+		echo "${name} not running? (check $pidfile)."
+		exit 1
+	fi
+}
+
+ASWCoin_stop()
+{
+    ASWCoin_requirepidfile
+
+	echo "Stopping ${name}."
+	eval ${command} -conf=${ASWCoin_config} -datadir=${ASWCoin_datadir} stop
+	wait_for_pids ${rc_pid}
+}
+
+load_rc_config $name
+run_rc_command "$1"

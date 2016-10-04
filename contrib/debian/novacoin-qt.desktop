@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=ASWCoin
+Comment=ASWCoin P2P Cryptocurrency
+Comment[ru]=ASWCoin, P2P криптовалюта
+Comment[fr]=ASWCoin, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=ASWCoin, eşten eşe kriptografik sanal para birimi
+Exec=/usr/bin/ASWCoin-qt
+Terminal=false
+Type=Application
+Icon=/usr/share/pixmaps/ASWCoin80.xpm
+MimeType=x-scheme-handler/ASWCoin;
+Categories=Office;
